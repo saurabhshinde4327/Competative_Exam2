@@ -125,6 +125,28 @@ class ApiService {
     return this.fetchApi<Notice[]>('/api/notices')
   }
 
+  async createNotice(notice: Omit<Notice, 'id'>): Promise<Notice> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/notices`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+        mode: 'cors',
+        body: JSON.stringify(notice),
+      })
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      return response.json()
+    } catch (error) {
+      console.error('Error creating notice:', error)
+      throw error
+    }
+  }
+
   // Students API
   async getStudents(): Promise<Student[]> {
     return this.fetchApi<Student[]>('/api/students')
@@ -167,14 +189,80 @@ class ApiService {
     return this.fetchApi<SuccessStory[]>('/api/success-stories')
   }
 
+  async createSuccessStory(story: Omit<SuccessStory, 'id'>): Promise<SuccessStory> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/success-stories`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+        mode: 'cors',
+        body: JSON.stringify(story),
+      })
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      return response.json()
+    } catch (error) {
+      console.error('Error creating success story:', error)
+      throw error
+    }
+  }
+
   // News Ticker API
   async getNewsTicker(): Promise<NewsTicker[]> {
     return this.fetchApi<NewsTicker[]>('/api/news-ticker')
   }
 
+  async createNewsTicker(news: Omit<NewsTicker, 'id'>): Promise<NewsTicker> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/news-ticker`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+        mode: 'cors',
+        body: JSON.stringify(news),
+      })
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      return response.json()
+    } catch (error) {
+      console.error('Error creating news ticker:', error)
+      throw error
+    }
+  }
+
   // Quiz API
   async getQuiz(): Promise<Quiz[]> {
     return this.fetchApi<Quiz[]>('/api/quiz')
+  }
+
+  async createQuiz(quiz: Omit<Quiz, 'id'>): Promise<Quiz> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/quiz`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+        mode: 'cors',
+        body: JSON.stringify(quiz),
+      })
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      return response.json()
+    } catch (error) {
+      console.error('Error creating quiz:', error)
+      throw error
+    }
   }
 
   // Health check

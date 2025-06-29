@@ -38,7 +38,19 @@ export function useNotices() {
     fetchNotices()
   }, [])
 
-  return { notices, loading, error, usingFallback }
+  const createNotice = async (notice: Omit<Notice, 'id'>) => {
+    try {
+      const newNotice = await apiService.createNotice(notice)
+      setNotices((prev: Notice[]) => [newNotice, ...prev])
+      return newNotice
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to create notice'
+      setError(errorMessage)
+      throw new Error(errorMessage)
+    }
+  }
+
+  return { notices, loading, error, createNotice, usingFallback }
 }
 
 export function useStudents() {
@@ -138,7 +150,19 @@ export function useSuccessStories() {
     fetchSuccessStories()
   }, [])
 
-  return { successStories, loading, error, usingFallback }
+  const createSuccessStory = async (story: Omit<SuccessStory, 'id'>) => {
+    try {
+      const newStory = await apiService.createSuccessStory(story)
+      setSuccessStories((prev: SuccessStory[]) => [newStory, ...prev])
+      return newStory
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to create success story'
+      setError(errorMessage)
+      throw new Error(errorMessage)
+    }
+  }
+
+  return { successStories, loading, error, createSuccessStory, usingFallback }
 }
 
 export function useNewsTicker() {
@@ -160,7 +184,19 @@ export function useNewsTicker() {
     fetchNewsTicker()
   }, [])
 
-  return { newsTicker, loading, error, usingFallback }
+  const createNewsTicker = async (news: Omit<NewsTicker, 'id'>) => {
+    try {
+      const newNews = await apiService.createNewsTicker(news)
+      setNewsTicker((prev: NewsTicker[]) => [newNews, ...prev])
+      return newNews
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to create news ticker'
+      setError(errorMessage)
+      throw new Error(errorMessage)
+    }
+  }
+
+  return { newsTicker, loading, error, createNewsTicker, usingFallback }
 }
 
 export function useQuiz() {
@@ -182,7 +218,19 @@ export function useQuiz() {
     fetchQuiz()
   }, [])
 
-  return { quiz, loading, error, usingFallback }
+  const createQuiz = async (quizItem: Omit<Quiz, 'id'>) => {
+    try {
+      const newQuiz = await apiService.createQuiz(quizItem)
+      setQuiz((prev: Quiz[]) => [...prev, newQuiz])
+      return newQuiz
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to create quiz'
+      setError(errorMessage)
+      throw new Error(errorMessage)
+    }
+  }
+
+  return { quiz, loading, error, createQuiz, usingFallback }
 }
 
 export function useHealthCheck() {
