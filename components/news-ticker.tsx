@@ -13,11 +13,11 @@ export function NewsTicker() {
   useEffect(() => {
     if (newsTicker.length === 0) return
 
-    const interval = setInterval(() => {
+      const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % newsTicker.length)
     }, 5000) // Change every 5 seconds
 
-    return () => clearInterval(interval)
+      return () => clearInterval(interval)
   }, [newsTicker.length])
 
   if (loading) {
@@ -87,16 +87,16 @@ export function NewsTicker() {
               </Badge>
             )}
           </div>
-          <div className="flex space-x-1">
+            <div className="flex space-x-1">
             {activeNews.map((_, index) => (
-              <div
-                key={index}
+                <div
+                  key={index}
                 className={`w-2 h-2 rounded-full transition-colors ${
                   index === currentIndex ? 'bg-blue-600' : 'bg-blue-300'
-                }`}
-              />
-            ))}
-          </div>
+                  }`}
+                />
+              ))}
+            </div>
         </div>
       </div>
     </div>

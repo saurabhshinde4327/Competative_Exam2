@@ -62,27 +62,27 @@ export function SuccessStories({ showAll = false }: SuccessStoriesProps) {
           <p className="text-gray-500">No success stories available</p>
         </div>
       ) : (
-        <div className="grid md:grid-cols-3 gap-8">
-          {displayStories.map((story) => (
-            <Card key={story.id} className="hover:shadow-xl transition-shadow duration-300">
-              <CardContent className="p-6">
-                <div className="text-center mb-4">
-                  <Image
-                    src={story.image || "/placeholder.svg"}
-                    alt={story.name}
-                    width={120}
-                    height={120}
-                    className="rounded-full mx-auto mb-4 object-cover"
-                  />
-                  <h3 className="text-xl font-bold text-gray-800">{story.name}</h3>
-                  <Badge className="bg-red-100 text-red-800 mt-2">
-                    {story.exam} - {story.rank}
-                  </Badge>
-                </div>
-                <p className="text-gray-600 text-sm leading-relaxed italic">"{story.story}"</p>
-              </CardContent>
-            </Card>
-          ))}
+    <div className="grid md:grid-cols-3 gap-8">
+      {displayStories.map((story) => (
+        <Card key={story.id} className="hover:shadow-xl transition-shadow duration-300">
+          <CardContent className="p-6">
+            <div className="text-center mb-4">
+              <Image
+                src={story.image || "/placeholder.svg"}
+                alt={story.name}
+                width={120}
+                height={120}
+                className="rounded-full mx-auto mb-4 object-cover"
+              />
+              <h3 className="text-xl font-bold text-gray-800">{story.name}</h3>
+              <Badge className="bg-red-100 text-red-800 mt-2">
+                {story.exam} - {story.rank}
+              </Badge>
+            </div>
+            <p className="text-gray-600 text-sm leading-relaxed italic">"{story.story}"</p>
+          </CardContent>
+        </Card>
+      ))}
         </div>
       )}
     </div>

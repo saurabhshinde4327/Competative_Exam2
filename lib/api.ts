@@ -71,32 +71,48 @@ class ApiService {
     const url = useProxy ? `${PROXY_URL}?endpoint=${endpoint}` : `${API_BASE_URL}${endpoint}`
     
     try {
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 10000) // 10 second timeout
+      
       const response = await fetch(url, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
         },
-        mode: useProxy ? 'same-origin' : 'cors', // Use same-origin for proxy
-        cache: 'no-cache', // Prevent caching issues
+        mode: useProxy ? 'same-origin' : 'cors',
+        cache: 'no-cache',
+        signal: controller.signal,
       })
+      
+      clearTimeout(timeoutId)
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
+      
+      const contentType = response.headers.get('content-type')
+      if (!contentType || !contentType.includes('application/json')) {
+        throw new Error(`Expected JSON response but got ${contentType}`)
+      }
+      
       return await response.json()
     } catch (error) {
       console.error(`API Error for ${endpoint}:`, error)
       
-      // If direct connection failed and we haven't tried proxy yet, try proxy
-      if (!useProxy && error instanceof TypeError && error.message.includes('Failed to fetch')) {
-        console.log('Direct connection failed, trying proxy...')
-        return this.fetchApi<T>(endpoint, true)
+      // Handle different types of errors
+      if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
+        throw new Error(`Network Error: Unable to connect to backend at ${API_BASE_URL}. The server may be down or unreachable.`)
       }
       
-      // Check if it's a CORS error
-      if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
-        throw new Error(`CORS Error: Unable to connect to backend at ${API_BASE_URL}. Please ensure the backend server is running and CORS is properly configured.`)
+      if (error instanceof Error && error.name === 'AbortError') {
+        throw new Error(`Timeout Error: Request to ${endpoint} timed out after 10 seconds.`)
+      }
+      
+      // If direct connection failed and we haven't tried proxy yet, try proxy
+      if (!useProxy && (error instanceof TypeError || (error instanceof Error && error.message.includes('Failed to fetch')))) {
+        console.log('Direct connection failed, trying proxy...')
+        return this.fetchApi<T>(endpoint, true)
       }
       
       throw error
