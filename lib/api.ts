@@ -79,6 +79,7 @@ class ApiService {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
+          'Access-Control-Allow-Origin': '*',
         },
         mode: useProxy ? 'same-origin' : 'cors',
         cache: 'no-cache',
@@ -136,6 +137,7 @@ class ApiService {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
+          'Access-Control-Allow-Origin': '*',
         },
         mode: 'cors',
         body: JSON.stringify(student),
