@@ -2,8 +2,9 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Bell, Trophy, Newspaper, Loader2, AlertCircle } from "lucide-react"
+import { Bell, Trophy, Newspaper, AlertCircle } from "lucide-react"
 import { useNotices } from "@/hooks/use-api"
+import { Loading } from "@/components/loading"
 
 export function NoticeSection() {
   const { notices, loading, error, usingFallback } = useNotices()
@@ -14,12 +15,7 @@ export function NoticeSection() {
   const updateItems = notices.filter(item => item.type === 'update')
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center py-8">
-        <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
-        <span className="ml-2 text-gray-600">Loading notices...</span>
-      </div>
-    )
+    return <Loading message="Loading notices..." />
   }
 
   return (

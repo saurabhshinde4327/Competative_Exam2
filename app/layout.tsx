@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { DataProvider } from "@/contexts/data-context"
-import { NewsTicker } from "@/components/news-ticker"
+import { ErrorBoundary } from "@/components/error-boundary"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -21,10 +21,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <DataProvider>
-          <NewsTicker />
-          {children}
-        </DataProvider>
+        <ErrorBoundary>
+          <DataProvider>
+            {children}
+          </DataProvider>
+        </ErrorBoundary>
       </body>
     </html>
   )

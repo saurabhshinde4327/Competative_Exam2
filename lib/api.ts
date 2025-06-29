@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://91.108.105.168:3007'
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://91.108.105.168:3007'
 const PROXY_URL = '/api/proxy'
 
 export interface Notice {
@@ -78,6 +78,7 @@ class ApiService {
           'Accept': 'application/json',
         },
         mode: useProxy ? 'same-origin' : 'cors', // Use same-origin for proxy
+        cache: 'no-cache', // Prevent caching issues
       })
       
       if (!response.ok) {
